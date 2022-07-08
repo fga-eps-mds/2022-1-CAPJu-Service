@@ -1,0 +1,19 @@
+version: "3"
+services:
+  app:
+    image: "node:alpine3.16"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "8081"
+    command: "npm start"
+
+  mongodb:
+    image: mongo:4
+    command: mongod
+    ports:
+      - "27017:27017"
