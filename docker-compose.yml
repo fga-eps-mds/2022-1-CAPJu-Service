@@ -8,8 +8,8 @@ services:
       - NODE_ENV=production
     volumes:
       - ./:/home/node/app
-    expose:
-      - "8081"
+    ports:
+      - "3333:3333"
     command: "npm start"
 
   mongodb:

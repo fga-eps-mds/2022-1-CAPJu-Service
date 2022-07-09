@@ -4,26 +4,21 @@ class ProcessController {
   async createProcess(request, response) {
     const { registro, apelido } = request.body;
     try {
-      const Process = await Process.create({
+      const process = await Process.create({
         registro,
         apelido,
       });
 
-      return response.status(200).json(Process);
+      return response.status(200).json(process);
     } catch (error) {
       console.log(error);
-      return response.json(error);
+      return response.status(500).json(error);
     }
   }
 
   async allProcesses(req, res) {
-    const id = req.params.id;
     try {
-      if (!id) return res.status(400).json({ message: "missing parameters" });
-
-      const processes = await Process.find({ customer: id, deleted: false })
-        .sort({ _id: 1 })
-        .limit(10);
+      const processes = await Process.find();
 
       return res.status(200).json({
         processes,
