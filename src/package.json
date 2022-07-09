@@ -2,10 +2,10 @@
   "version": "2.0.0",
   "name": "capju-service",
   "description": "CAPJu process management service",
-  "main": "app/app.js",
+  "main": "app.js",
   "scripts": {
     "test": "jest",
-    "start": "node src/server.js"
+    "start": "node server.js"
   },
   "license": "MIT",
   "dependencies": {
