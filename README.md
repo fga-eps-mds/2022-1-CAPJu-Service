@@ -2,18 +2,19 @@
 
 ## About
 
-- [Docker](https://www.docker.com/) as the container service to isolate the environment.
-- [Node.js](https://nodejs.org/en/) (Long-Term-Support Version) as the run-time environment to run JavaScript.
-- [Express.js](https://expressjs.com/) as the server framework / controller layer
-- [MongoDB](https://www.mongodb.com/) as the database layer
-- [Mongoose](https://mongoosejs.com/) as the "ODM" / model layer
+- [Docker](https://www.docker.com/) Como serviço de containerização .
+- [Node.js](https://nodejs.org/en/) (Latest Version) Como ambiente de execução de JavaScript.
+- [Express.js](https://expressjs.com/) Como framework de servidor e camada de controller.
+- [MongoDB](https://www.mongodb.com/) Como camada de banco de dados
+- [Mongoose](https://mongoosejs.com/) Como camada "ODM" / model
 
 ## How to Install & Run
 
 You will need to first download and install [Docker Desktop](https://www.docker.com/products/docker-desktop) or [Linux equivalent](https://docs.docker.com/install/linux/docker-ce/ubuntu/).
 
-0.  Fork/Clone the repo
-1.  Run `docker compose up` to start three containers:
-    - the MongoDB database container
-    - the Node.js app container
-1.  Server is accessible at `http://localhost:3333` if you have Docker for Windows or Mac. On Linux, you may need to hit the IP Address of the docker-machine rather than `localhost` (port rules are the same.)
+0.  Clone o repositório
+0.  Rode `docker compose build` para instalar as dependencias.
+1.  Rode `docker compose up` para iniciar os dois containers:
+    - o container do banco de dados MongoDB.
+    -  o container para a aplicação NodeJS
+1.  O servidor está acessivel em `http://localhost:3333`. Talves seja necessário utilizar o IP ou url da network do docker ao invés de `localhost` (a porta continua sendo a mesma.)
