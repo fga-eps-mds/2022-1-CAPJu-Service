@@ -9,4 +9,5 @@ COPY ./package-lock.json /app/package-lock.json
 COPY ./yarn.lock /app/yarn.lock
 
 RUN yarn  install --immutable --immutable-cache --check-cache
-CMD yarn run start
+RUN yarn global add nodemon
+CMD npm run dev
