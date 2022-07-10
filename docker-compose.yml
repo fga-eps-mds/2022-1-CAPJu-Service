@@ -1,16 +1,15 @@
 version: "3"
 services:
   app:
-    image: "node:alpine3.16"
-    user: "node"
-    working_dir: /home/node/app
-    environment:
-      - NODE_ENV=production
+    build:
+      context: .
+    # environment:
+    #   - NODE_ENV=production
     volumes:
-      - ./:/home/node/app
+      - ./src:/app
+      - /app/node_modules
     ports:
       - "3333:3333"
-    command: "npm start"
 
   mongodb:
     image: mongo:4

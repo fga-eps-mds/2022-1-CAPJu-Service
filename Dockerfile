@@ -1,15 +1,13 @@
-FROM node:16
+FROM node:18-alpine
 
-RUN npm install pm2@latest --global --quiet
+RUN yarn global add pm2@latest
 
-WORKDIR /usr/src/app
-COPY package*.json ./
+WORKDIR /app
 
-# Bundle app source
-COPY . .
+COPY ./src/package.json /app/package.json
+COPY ./package-lock.json /app/package-lock.json
+COPY ./yarn.lock /app/yarn.lock
 
-RUN npm ci --only=production
-
-EXPOSE 8080
-
-CMD ["pm2-runtime", "./config/pm2.json"]
+RUN yarn  install --immutable --immutable-cache --check-cache
+RUN yarn global add nodemon
+CMD npm run dev
