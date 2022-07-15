@@ -26,9 +26,5 @@
     "mongodb-memory-server": "^8.1.0",
     "supertest": "^6.1.6"
   },
-  "jest": {
-    "globalSetup": "./config/jest/globalSetup.js",
-    "globalTeardown": "./config/jest/globalTeardown.js"
-  },
   "type": "module"
 }
