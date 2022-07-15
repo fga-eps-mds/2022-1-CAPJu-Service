@@ -10,4 +10,4 @@ COPY ./yarn.lock /app/yarn.lock
 
 RUN yarn  install --immutable --immutable-cache --check-cache
 RUN yarn global add nodemon
-CMD npm run dev
+CMD yarn run dev

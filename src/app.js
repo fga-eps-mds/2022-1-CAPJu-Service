@@ -3,7 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import routes from "./routes.js";
 
-let app = express();
+const app = express();
 
 app.use(express.json({ limit: "50mb" }));
 app.use(cors());
