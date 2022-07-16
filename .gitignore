@@ -11,3 +11,6 @@ node_modules
 
 # Auto-Generated Jest MongoDB config
 globalConfig.json
+
+#coverage files
+/src/coverage/lcov-report/*

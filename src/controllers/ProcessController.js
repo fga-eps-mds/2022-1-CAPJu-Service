@@ -1,18 +1,19 @@
 import Process from "../schemas/Process.js";
+import { ProcessValidator } from "../validators/Process.js"
 
 class ProcessController {
-  async createProcess(request, response) {
-    const { registro, apelido } = request.body;
+  async createProcess(req, res) {
     try {
+      const { registro, apelido} = await ProcessValidator.validateAsync(req.body);
       const process = await Process.create({
         registro,
         apelido,
       });
 
-      return response.status(200).json(process);
+      return res.status(200).json(process);
     } catch (error) {
       console.log(error);
-      return response.status(500).json(error);
+      return res.status(500).json(error);
     }
   }
 
