@@ -12,15 +12,15 @@ test("testa uma função que soma dois numeros", () => {
 jest.mock("mongoose", () => {
     return { connect: async () => undefined }
 });
-jest.mock("../schemas/Process.js", () => {
+jest.mock("../schemas/Processo.js", () => {
     return {
         create: (json) => json,
         find: () => "foobar"
     }
 });
-test("testa o endpoint newProcess", async () => {
+test("testa o endpoint novoProcesso", async () => {
     const response = await supertest(app)
-        .post("/newProcess")
+        .post("/novoProcesso")
         .set("Content-Type", "application/json")
         .send({
             registro: "foo",
@@ -32,4 +32,15 @@ test("testa o endpoint newProcess", async () => {
         apelido: "bar",
         ...response.body
     });
+});
+
+test("testa o endpoint novoProcesso se der errado", async () => {
+    const response = await supertest(app)
+        .post("/novoProcesso")
+        .set("Content-Type", "application/json")
+        .send({
+            apelido: "bar"
+        });
+    expect(response.status).toBe(500);
+    
 });
