@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const ProcessValidator = Joi.object({
+export const ProcessoValidator = Joi.object({
   registro: Joi.string().required(),
   apelido: Joi.string(),
 });

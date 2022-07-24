@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const ProcessSchema = new Schema(
+const ProcessoSchema = new Schema(
   {
     registro: String,
     apelido: String,
@@ -11,4 +11,4 @@ const ProcessSchema = new Schema(
   }
 );
 
-export default model("Process", ProcessSchema);
+export default model("Process", ProcessoSchema);
