@@ -5,9 +5,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Check code style
+        run: cd src && yarn prettier --check . && cd ..
+      - name: Lint Analysis
+        run: cd src && yarn eslint . && cd ..
       - name: Building docker-compose stack
         run: docker-compose up -d
       - name: Check running containers
         run: docker ps -a
       - name: Run test suite
-        run: docker compose exec app yarn test
+        run: docker-compose exec app yarn test
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: [build]
+      steps:
+        - name: Checkout the files
+          uses: actions/checkout@v2
+
+        - name: Deploy
+          uses: easingthemes/ssh-deploy@main
+          env:
+            SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+            REMOTE_HOST: ${{ secrets.HOST_DNS }}
+            REMOTE_USER: ${{ secrets.USERNAME }}
+            TARGET: ${{ secrets.TARGET_DIR }}
+
+        - name: run
+          run: ssh user@123.456.789.0 "cd app && docker-compose up --build -d"
