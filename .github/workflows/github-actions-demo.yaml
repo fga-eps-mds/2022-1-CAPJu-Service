@@ -17,9 +17,22 @@ jobs:
         run: docker ps -a
       - name: Run test suite
         run: docker-compose exec -T app yarn test
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   deploy:
     runs-on: ubuntu-latest
     needs: [build]
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout the files
         uses: actions/checkout@v2
