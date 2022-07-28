@@ -25,12 +25,6 @@ test("testa o endpoint newProcess", async () => {
         apelido: "bar",
         ...response.body
     });
-  expect(response.status).toBe(200);
-  expect(response.body).toEqual({
-    registro: "foo",
-    apelido: "bar",
-    ...response.body,
-  });
 });
 
 test("testa o endpoint newProcess se der errado", async () => {
