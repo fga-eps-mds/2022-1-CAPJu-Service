@@ -11,35 +11,39 @@ jest.mock("../schemas/Process.js", () => {
         find: () => "foobar"
     }
 });
-test("testa o endpoint newProcess", async () => {
-    const response = await supertest(app)
-        .post("/newProcess")
-        .set("Content-Type", "application/json")
-        .send({
+
+describe('post new process', () => {
+    test("testa o endpoint newProcess", async () => {
+        const response = await supertest(app)
+            .post("/newProcess")
+            .set("Content-Type", "application/json")
+            .send({
+                registro: "foo",
+                apelido: "bar"
+            });
+        expect(response.status).toBe(200)
+        expect(response.body).toEqual({
             registro: "foo",
-            apelido: "bar"
+            apelido: "bar",
+            ...response.body
         });
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(200);
     expect(response.body).toEqual({
         registro: "foo",
         apelido: "bar",
-        ...response.body
+        ...response.body,
     });
-  expect(response.status).toBe(200);
-  expect(response.body).toEqual({
-    registro: "foo",
-    apelido: "bar",
-    ...response.body,
-  });
-});
+    });
 
-test("testa o endpoint newProcess se der errado", async () => {
-    const response = await supertest(app)
-        .post("/newProcess")
-        .set("Content-Type", "application/json")
-        .send({
-            apelido: "bar"
-        });
-    expect(response.status).toBe(500);
-    
+    test("testa o endpoint newProcess se der errado", async () => {
+        const response = await supertest(app)
+            .post("/newProcess")
+            .set("Content-Type", "application/json")
+            .send({
+                apelido: "bar"
+            });
+        expect(response.status).toBe(500);
+        
+    });
+
 });
