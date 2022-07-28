@@ -1,12 +1,10 @@
 import Process from "../schemas/Process.js";
-import { ProcessValidator } from "../validators/Process.js";
+import { ProcessValidator } from "../validators/Process.js"
 
 class ProcessController {
   async createProcess(req, res) {
     try {
-      const { registro, apelido } = await ProcessValidator.validateAsync(
-        req.body
-      );
+      const { registro, apelido} = await ProcessValidator.validateAsync(req.body);
       const process = await Process.create({
         registro,
         apelido,
