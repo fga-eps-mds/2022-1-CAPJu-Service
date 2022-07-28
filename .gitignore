@@ -13,4 +13,4 @@ node_modules
 globalConfig.json
 
 #coverage files
-/src/coverage/lcov-report/*
+/src/coverage/*

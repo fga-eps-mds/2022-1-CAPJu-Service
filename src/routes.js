@@ -1,10 +1,10 @@
 import { Router } from "express";
-import ProcessoController from "./controllers/ProcessoController.js";
+import ProcessController from "./controllers/ProcessController.js";
 
 const routes = Router();
 
-routes.get("/processos", ProcessoController.todosProcessos);
+routes.get("/processes", ProcessController.allProcesses);
 
-routes.post("/novoProcesso", ProcessoController.createProcesso);
+routes.post("/newProcess", ProcessController.createProcess);
 
 export default routes;
