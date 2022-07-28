@@ -8,7 +8,8 @@ jest.mock("mongoose", () => {
 jest.mock("../schemas/Process.js", () => {
     return {
         create: (json) => json,
-        find: () => "foobar"
+        find: () => "foobar",
+        deleteOne: (json)=> json
     }
 });
 
@@ -47,3 +48,15 @@ describe('post new process', () => {
     });
 
 });
+
+describe('delete processes', ()=>{
+    test(" testa o endpoint deleteProcess", async () =>{
+        const urlparams = '1234';
+        const response = await (await supertest(app).delete(`/deleteProcess/${urlparams}`));
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            registro: urlparams,
+        });
+    })
+});
+
