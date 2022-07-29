@@ -20,11 +20,11 @@ class StageController {
 
   async deleteStage(req, res) {
     try {
-      const { stageId } = await StageValidator.validateAsync(req.body);
+      const stageId = req.body.stageId;
       const stage = await Stage.findOne({ _id: stageId });
 
       if (!stage) {
-        return res.status(200).json({
+        return res.status(404).json({
           message: "Stage not found",
         });
       }

@@ -25,6 +25,7 @@ class FlowController {
         name,
         stages,
         sequences,
+        deleted: false,
       });
 
       return res.status(200).json(flow);
@@ -36,10 +37,34 @@ class FlowController {
 
   async allFlows(req, res) {
     try {
-      const Flows = await Flow.find();
+      const Flows = await Flow.find({ deleted: false });
       return res.status(200).json({
         Flows,
       });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+
+  async deleteFlow(req, res) {
+    try {
+      const flowId = req.body.flowId;
+      const flow = await Flow.findOne({ _id: flowId });
+
+      if (!flow) {
+        return res.status(404).json({
+          message: "Flow not found",
+        });
+      }
+
+      const result = await Flow.updateOne(
+        { _id: flow._id },
+        { deleted: true },
+        { upsert: true }
+      );
+
+      return res.status(200).json(result);
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
