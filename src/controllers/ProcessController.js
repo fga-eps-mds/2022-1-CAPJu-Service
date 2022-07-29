@@ -1,10 +1,12 @@
 import Process from "../schemas/Process.js";
-import { ProcessValidator } from "../validators/Process.js"
+import { ProcessValidator } from "../validators/Process.js";
 
 class ProcessController {
   async createProcess(req, res) {
     try {
-      const { registro, apelido} = await ProcessValidator.validateAsync(req.body);
+      const { registro, apelido } = await ProcessValidator.validateAsync(
+        req.body
+      );
       const process = await Process.create({
         registro,
         apelido,
@@ -30,13 +32,13 @@ class ProcessController {
     }
   }
 
-  async deleteProcess(req, res){
+  async deleteProcess(req, res) {
     try {
-      const result = await Process.deleteOne({registro: req.params.registro});
-      
+      const result = await Process.deleteOne({ registro: req.params.registro });
+
       console.log(result);
       if (result.deletedCount === 0) {
-        throw new Error(`Não há registro ${req.params.registro}!`)
+        throw new Error(`Não há registro ${req.params.registro}!`);
       }
 
       res.json(result);
