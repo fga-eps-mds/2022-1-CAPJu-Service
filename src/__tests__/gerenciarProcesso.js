@@ -58,7 +58,12 @@ describe('delete processes', ()=>{
         const response = await (await supertest(app).delete(`/deleteProcess/${REGISTRO}`));
         expect(response.status).toBe(200);
         expect(response.body).toEqual({
-            deletedCount: 1
+            deletedCount: 1,
+            acknowledged: true
         });
-    })
+
+        const responseError = await (await supertest(app).delete(`/deleteProcess/${REGISTRO}`));
+        expect(responseError.status).toBe(500);
+
+    });
 });
