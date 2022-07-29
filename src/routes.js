@@ -13,5 +13,6 @@ routes.post("/newFlow", FlowController.createFlow);
 
 routes.get("/stages", StageController.allStages);
 routes.post("/newStage", StageController.createStage);
+routes.post("/deleteStage", StageController.deleteStage);
 
 export default routes;

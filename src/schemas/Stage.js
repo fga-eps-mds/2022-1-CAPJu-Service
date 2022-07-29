@@ -4,6 +4,7 @@ const { Schema, model } = mongoose;
 const StageSchema = new Schema(
   {
     name: String,
+    deleted: Boolean,
   },
   {
     timestamps: true,

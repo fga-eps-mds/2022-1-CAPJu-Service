@@ -8,6 +8,7 @@ class StageController {
       console.log(name);
       const stage = await Stage.create({
         name,
+        deleted: false,
       });
 
       return res.status(200).json(stage);
@@ -17,9 +18,33 @@ class StageController {
     }
   }
 
+  async deleteStage(req, res) {
+    try {
+      const { stageId } = await StageValidator.validateAsync(req.body);
+      const stage = await Stage.findOne({ _id: stageId });
+
+      if (!stage) {
+        return res.status(200).json({
+          message: "Stage not found",
+        });
+      }
+
+      const result = await Stage.updateOne(
+        { _id: stage._id },
+        { deleted: true },
+        { upsert: true }
+      );
+
+      return res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+
   async allStages(req, res) {
     try {
-      const Stages = await Stage.find();
+      const Stages = await Stage.find({ deleted: false });
       return res.status(200).json({
         Stages,
       });
