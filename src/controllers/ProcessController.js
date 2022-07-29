@@ -34,7 +34,6 @@ class ProcessController {
     try {
       const processes = await Process.deleteOne({registro: req.params.registro});
       res.json(processes);
-      
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);

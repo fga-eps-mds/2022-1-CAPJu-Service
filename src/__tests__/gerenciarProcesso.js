@@ -1,34 +1,45 @@
 import supertest from "supertest";
 import app from "../app";
+import mongoose from "mongoose";
 
-// mocks necessários para não travar os testes
-jest.mock("mongoose", () => {
-  return { connect: async () => undefined };
-});
-jest.mock("../schemas/Process.js", () => {
-    return {
-        create: (json) => json,
-        find: () => "foobar",
-        deleteOne: (json)=> json
+const mongoDB = {
+    mongoose,
+    connect: () => {
+      mongoose.Promise = Promise;
+      mongoose.connect(process.env.MONGODB_URI_TESTE || "mongodb://mongodb/capjuTeste");
+    },
+    disconnect: done => {
+      mongoose.disconnect(done);
     }
+};
+const REGISTRO = '1234'
+
+let globalResponse;
+
+beforeAll(async () => {
+    mongoDB.connect();
+    await mongoDB.mongoose.connection.dropDatabase();
+    globalResponse = await supertest(app)
+        .post("/newProcess")
+        .set("Content-Type", "application/json")
+        .send({
+            registro: REGISTRO,
+            apelido: "bar"
+        });
+});
+
+afterAll((done) => {
+    mongoDB.disconnect(done);
 });
 
 describe('post new process', () => {
     test("testa o endpoint newProcess", async () => {
-        const response = await supertest(app)
-            .post("/newProcess")
-            .set("Content-Type", "application/json")
-            .send({
-                registro: "foo",
-                apelido: "bar"
-            });
-        expect(response.status).toBe(200)
-        expect(response.body).toEqual({
-            registro: "foo",
+        expect(globalResponse.status).toBe(200)
+        expect(globalResponse.body).toEqual({
+            registro: REGISTRO,
             apelido: "bar",
-            ...response.body
+            ...globalResponse.body
         });
-
     });
 
     test("testa o endpoint newProcess se der errado", async () => {
@@ -39,19 +50,15 @@ describe('post new process', () => {
                 apelido: "bar"
             });
         expect(response.status).toBe(500);
-        
     });
-
 });
 
 describe('delete processes', ()=>{
     test(" testa o endpoint deleteProcess", async () =>{
-        const urlparams = '1234';
-        const response = await (await supertest(app).delete(`/deleteProcess/${urlparams}`));
+        const response = await (await supertest(app).delete(`/deleteProcess/${REGISTRO}`));
         expect(response.status).toBe(200);
         expect(response.body).toEqual({
-            registro: urlparams,
+            deletedCount: 1
         });
     })
 });
-
