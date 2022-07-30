@@ -31,6 +31,22 @@ class ProcessController {
       return res.status(500).json(error);
     }
   }
+
+  async deleteProcess(req, res) {
+    try {
+      const result = await Process.deleteOne({ registro: req.params.registro });
+
+      console.log(result);
+      if (result.deletedCount === 0) {
+        throw new Error(`Não há registro ${req.params.registro}!`);
+      }
+
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
 }
 
 export default new ProcessController();
