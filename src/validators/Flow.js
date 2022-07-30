@@ -15,7 +15,7 @@ export const FlowValidator = Joi.object({
 
 export const FlowEditValidator = Joi.object({
   _id: Joi.string().required(),
-  name: Joi.string().allow(null,''),
+  name: Joi.string().allow(null, ""),
   stages: Joi.array().items(Joi.string()).allow(null),
   sequences: Joi.array()
     .items(
