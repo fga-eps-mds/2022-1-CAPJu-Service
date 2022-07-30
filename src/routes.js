@@ -5,10 +5,9 @@ const routes = Router();
 
 routes.get("/processes", ProcessController.allProcesses);
 
-routes.post("/processes", ProcessController.updateProcesses);
-
 routes.post("/newProcess", ProcessController.createProcess);
 
+routes.put("/editProcess", ProcessController.updateProcesses);
 
 
 export default routes;

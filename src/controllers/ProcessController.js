@@ -32,14 +32,17 @@ class ProcessController {
 
   async updateProcesses(req, res){
     try{
-      const update=await Process.updateOne(req.params.registro,req.body);
+      const body = req.body
+
+      const update = await Process.updateOne({_id:body._id}, body);
+
       return res.status(200).json(update);
     }catch(error){
       return res.status(500).json(error);
     }
-
   }
+
 }
 
-export default new ProcessController();
 
+export default new ProcessController();
