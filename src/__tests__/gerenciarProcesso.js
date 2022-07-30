@@ -1,13 +1,6 @@
 import supertest from "supertest";
 import app from "../app";
 
-const somaDois = (a, b) => a + b;
-
-test("testa uma função que soma dois numeros", () => {
-  expect(somaDois(1, 2)).toBe(3);
-  expect(somaDois(1, 3)).toBe(4);
-});
-
 // mocks necessários para não travar os testes
 jest.mock("mongoose", () => {
   return { connect: async () => undefined };
@@ -32,4 +25,14 @@ test("testa o endpoint newProcess", async () => {
     apelido: "bar",
     ...response.body,
   });
+});
+
+test("testa o endpoint newProcess se der errado", async () => {
+  const response = await supertest(app)
+    .post("/newProcess")
+    .set("Content-Type", "application/json")
+    .send({
+      apelido: "bar",
+    });
+  expect(response.status).toBe(500);
 });
