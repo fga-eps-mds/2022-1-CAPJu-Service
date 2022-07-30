@@ -11,6 +11,7 @@ routes.post("/newProcess", ProcessController.createProcess);
 routes.get("/flows", FlowController.allFlows);
 routes.post("/newFlow", FlowController.createFlow);
 routes.post("/deleteFlow", FlowController.deleteFlow);
+routes.put("/editFlow", FlowController.editFlow);
 
 routes.get("/stages", StageController.allStages);
 routes.post("/newStage", StageController.createStage);

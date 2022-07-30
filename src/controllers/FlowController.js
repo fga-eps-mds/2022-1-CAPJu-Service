@@ -70,6 +70,18 @@ class FlowController {
       return res.status(500).json(error);
     }
   }
+
+  async editFlow(req, res) {
+    try {
+      const body = req.body;
+
+      const result = await Flow.updateOne({ _id: body._id }, body);
+      res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
 }
 
 export default new FlowController();
