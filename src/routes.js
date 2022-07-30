@@ -7,6 +7,7 @@ const routes = Router();
 
 routes.get("/processes", ProcessController.allProcesses);
 routes.post("/newProcess", ProcessController.createProcess);
+routes.delete("/deleteProcess/:registro", ProcessController.deleteProcess);
 
 routes.get("/flows", FlowController.allFlows);
 routes.post("/newFlow", FlowController.createFlow);
