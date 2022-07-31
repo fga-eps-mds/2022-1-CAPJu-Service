@@ -5,6 +5,10 @@ const ProcessSchema = new Schema(
   {
     registro: String,
     apelido: String,
+    etapas: Array,
+    arquivado: {type: Boolean, default: false},
+    etapaAtual: Schema.Types.ObjectId,
+    fluxoId: Schema.Types.ObjectId
   },
   {
     timestamps: true,
