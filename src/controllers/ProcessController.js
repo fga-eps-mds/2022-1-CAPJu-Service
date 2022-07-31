@@ -1,5 +1,5 @@
 import Process from "../schemas/Process.js";
-import { ProcessValidator } from "../validators/Process.js";
+import { ProcessValidator, ProcessEditValidator } from "../validators/Process.js";
 
 class ProcessController {
   async createProcess(req, res) {
@@ -34,8 +34,7 @@ class ProcessController {
 
   async updateProcesses(req, res) {
     try {
-      const body = req.body
-
+      const body = await ProcessEditValidator.validateAsync(req.body);
       const update = await Process.updateOne({ _id: body._id }, body);
 
       return res.status(200).json(update);
