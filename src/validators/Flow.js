@@ -25,4 +25,6 @@ export const FlowEditValidator = Joi.object({
       })
     )
     .allow(null),
+  deleted: Joi.bool().allow(null),
+  updatedAt: Joi.string().allow(null,'')
 });
