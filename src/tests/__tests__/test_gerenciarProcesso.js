@@ -1,19 +1,7 @@
 import supertest from "supertest";
-import app from "../app";
-import mongoose from "mongoose";
+import app from "../../app";
+import { mongoDB } from "../fixtures";
 
-const mongoDB = {
-  mongoose,
-  connect: () => {
-    mongoose.Promise = Promise;
-    mongoose.connect(
-      process.env.MONGODB_URI_TESTE || "mongodb://mongodb/capjuTeste"
-    );
-  },
-  disconnect: (done) => {
-    mongoose.disconnect(done);
-  },
-};
 const REGISTRO = "1234";
 
 let globalResponse;
