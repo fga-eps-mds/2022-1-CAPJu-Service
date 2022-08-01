@@ -1,6 +1,6 @@
 import Flow from "../schemas/Flow.js";
 import Stage from "../schemas/Stage.js";
-import { FlowValidator } from "../validators/Flow.js";
+import { FlowValidator, FlowEditValidator } from "../validators/Flow.js";
 
 class FlowController {
   async createFlow(req, res) {
@@ -65,6 +65,18 @@ class FlowController {
       );
 
       return res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+
+  async editFlow(req, res) {
+    try {
+      const body = await FlowEditValidator.validateAsync(req.body);
+
+      const result = await Flow.updateOne({ _id: body._id }, body);
+      res.status(200).json(result);
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
