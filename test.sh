@@ -1,2 +1,2 @@
 #!/bin/env sh
-docker compose exec app yarn test --runInBand
+cd src && yarn test && cd ../

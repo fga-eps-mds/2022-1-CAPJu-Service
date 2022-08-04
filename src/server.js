@@ -1,8 +1,11 @@
 import app from "./app.js";
 import mongoose from "mongoose";
+import { config } from "dotenv";
+
+config();
 
 mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://mongodb/capju")
+  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017")
   .then(() => {
     console.log("Connected to DB!");
   })

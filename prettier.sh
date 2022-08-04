@@ -1,2 +1,2 @@
 #!/bin/env sh
-docker compose exec app yarn prettier
+cd src && yarn prettier && cd ../
