@@ -60,7 +60,7 @@ class ProcessController {
         throw new Error(`Não há registro ${req.params.registro}!`);
       }
 
-      res.json(result);
+      res.satus(204).json(result);
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
