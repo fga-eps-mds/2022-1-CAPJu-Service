@@ -1,19 +1,30 @@
 import Process from "../schemas/Process.js";
 import { ProcessValidator } from "../validators/Process.js";
 
+const findProcess = async (res, search) => {
+  try {
+    const processes = await Process.find(search);
+    return res.status(200).json({
+      processes,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
 class ProcessController {
   async createProcess(req, res) {
     try {
-      const { registro, apelido, etapaAtual, etapas, arquivado, fluxoId } = await ProcessValidator.validateAsync(
-        req.body
-      );
+      const { registro, apelido, etapaAtual, etapas, arquivado, fluxoId } =
+        await ProcessValidator.validateAsync(req.body);
       const process = await Process.create({
         registro,
         apelido,
-        etapaAtual, 
+        etapaAtual,
         arquivado,
         etapas,
-        fluxoId
+        fluxoId,
       });
 
       return res.status(200).json(process);
@@ -24,26 +35,23 @@ class ProcessController {
   }
 
   async allProcesses(req, res) {
-    try {
-      const processes = await Process.find();
+    return findProcess(res);
+  }
 
-      return res.status(200).json({
-        processes,
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json(error);
-    }
+  async processesInFlow(req, res) {
+    const search = {
+      fluxoId: req.params.flowId,
+    };
+    return findProcess(res, search);
   }
 
   async updateProcess(req, res) {
     try {
-      const { registro, apelido, etapaAtual, etapas, arquivado, fluxoId } = await ProcessValidator.validateAsync(
-        req.body
-      );
+      await ProcessValidator.validateAsync(req.body);
+      const process = await Process.findOneAndUpdate(req.params.id, req.body, {
+        new: true,
+      });
 
-      const process = await Process.findOneAndUpdate( req.params.id, req.body, {new: true});
-      
       return res.status(200).json(process);
     } catch (error) {
       console.log(error);

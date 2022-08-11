@@ -6,6 +6,7 @@ import StageController from "./controllers/StageController.js";
 const routes = Router();
 
 routes.get("/processes", ProcessController.allProcesses);
+routes.get("/processes/:flowId", ProcessController.processesInFlow);
 routes.post("/newProcess", ProcessController.createProcess);
 routes.put("/updateProcess/:id", ProcessController.updateProcess);
 routes.delete("/deleteProcess/:registro", ProcessController.deleteProcess);
