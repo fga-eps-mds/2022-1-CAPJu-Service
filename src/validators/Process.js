@@ -12,3 +12,8 @@ export const ProcessValidator = Joi.object({
   })).required(),
   fluxoId: Joi.string().required()
 });
+
+export const NextStageValidator = Joi.object({
+  processId: Joi.string().required(),
+  stageId: Joi.string().required()
+})
