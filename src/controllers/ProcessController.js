@@ -1,5 +1,5 @@
 import Process from "../schemas/Process.js";
-import { ProcessValidator, NextStageValidator } from "../validators/Process.js";
+import { ProcessValidator, ProcessEditValidator, NextStageValidator } from "../validators/Process.js";
 
 const findProcess = async (res, search) => {
   try {
@@ -47,10 +47,8 @@ class ProcessController {
 
   async updateProcess(req, res) {
     try {
-      await ProcessValidator.validateAsync(req.body);
-      const process = await Process.findOneAndUpdate(req.params.id, req.body, {
-        new: true,
-      });
+      await ProcessEditValidator.validateAsync(req.body);
+      const process = await Process.updateOne({_id : req.params.id}, req.body);
 
       return res.status(200).json(process);
     } catch (error) {

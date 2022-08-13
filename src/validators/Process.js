@@ -9,8 +9,15 @@ export const ProcessValidator = Joi.object({
     etapa: Joi.string(),
     duracao: Joi.number(),
     observacoes: Joi.string().allow(null, "")
-  })).required(),
+  })).allow(null),
   fluxoId: Joi.string().required()
+});
+
+export const ProcessEditValidator = Joi.object({
+  registro: Joi.string().allow(null, ""),
+  apelido: Joi.string().allow(null, ""),
+  arquivado: Joi.boolean().allow(null, ""),
+  fluxoId: Joi.string().allow(null, "")
 });
 
 export const NextStageValidator = Joi.object({
