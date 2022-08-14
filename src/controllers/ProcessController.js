@@ -1,5 +1,9 @@
 import Process from "../schemas/Process.js";
-import { ProcessValidator, ProcessEditValidator, NextStageValidator } from "../validators/Process.js";
+import {
+  ProcessValidator,
+  ProcessEditValidator,
+  NextStageValidator,
+} from "../validators/Process.js";
 
 const findProcess = async (res, search) => {
   try {
@@ -48,7 +52,7 @@ class ProcessController {
   async updateProcess(req, res) {
     try {
       await ProcessEditValidator.validateAsync(req.body);
-      const process = await Process.updateOne({_id : req.params.id}, req.body);
+      const process = await Process.updateOne({ _id: req.params.id }, req.body);
 
       return res.status(200).json(process);
     } catch (error) {
@@ -76,8 +80,20 @@ class ProcessController {
   async nextStage(req, res) {
     try {
       const body = await NextStageValidator.validateAsync(req.body);
+      const search = { _id: body.processId };
+      const processes = await Process.findOne(search);
 
-      const result = await Process.updateOne({ _id: body.processId }, { etapaAtual:body.stageId })
+
+      processes.etapas.push({
+        stageIdTo: body.stageIdTo,
+        stageIdFrom: body.stageIdFrom,
+        observation: body.observation,
+      });
+
+      const result = await Process.updateOne(
+        search,
+        { etapaAtual: body.stageIdTo, etapas: processes.etapas}
+      );
 
       res.status(200).json(result);
     } catch (error) {

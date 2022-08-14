@@ -17,5 +17,7 @@ export const ProcessEditValidator = Joi.object({
 
 export const NextStageValidator = Joi.object({
   processId: Joi.string().required(),
-  stageId: Joi.string().required()
+  stageIdTo: Joi.string().required(),
+  stageIdFrom: Joi.string().required(),
+  observation: Joi. string().allow(null, "")
 })
