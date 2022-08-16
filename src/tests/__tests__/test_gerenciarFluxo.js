@@ -33,10 +33,12 @@ beforeAll(async () => {
     },
   ];
 
-  responseFlow = await supertest(app).post("/newFlow").send({
-    name: "flow1",
-    stages: stageArray,
-    sequences: sequenceArray,
+  responseFlow = await supertest(app)
+    .post("/newFlow")
+    .send({
+      name: "flow1",
+      stages: stageArray,
+      sequences: sequenceArray,
   });
 });
 
@@ -44,7 +46,7 @@ afterAll((done) => {
   mongoDB.disconnect(done);
 });
 
-test.skip("testa fluxo criado", () => {
+test("testa fluxo criado", async () => {
   expect(responseFlow.status).toBe(200);
   expect(responseFlow.body).toEqual({
     name: "flow1",
@@ -53,4 +55,14 @@ test.skip("testa fluxo criado", () => {
     deleted: false,
     ...responseFlow.body,
   });
+});
+
+test("testa se fluxo criado nao dar certo", async () => {
+  const response = await supertest(app)
+    .post("/newFlow")
+    .send({
+      name: "",
+      deleted: false,
+    });
+  expect(response.status).toBe(500);
 });
