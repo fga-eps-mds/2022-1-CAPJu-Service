@@ -83,3 +83,10 @@ test("testa nao deletar fluxo", async () => {
   });
   expect(response.status).toBe(404);
 });
+
+test("testa edicao de um fluxo", async () => {
+  const response = await supertest(app).put("/editFlow").send({
+    _id: responseFlow.body._id,
+  });
+  expect(response.status).toBe(200);
+});
