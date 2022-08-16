@@ -5,7 +5,7 @@ export const mongoDB = {
   connect: () => {
     mongoose.Promise = Promise;
     mongoose.connect(
-      process.env.MONGODB_URI_TESTE || "mongodb://mongodb/capjuTeste"
+      process.env.MONGODB_URI_TESTE || "mongodb+srv://capju:3npIZt0BDreDRJTI@cluster0.aqleb.mongodb.net/MaiconMaresTeste?retryWrites=true&w=majority"
     );
   },
   disconnect: (done) => {
