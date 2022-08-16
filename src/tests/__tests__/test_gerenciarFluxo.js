@@ -104,7 +104,6 @@ test("testa falha ao editar um fluxo", async () => {
   });
   expect(response.status).toBe(500);
 });
-<<<<<<< HEAD
 
 test("testa lista de fluxos", async () => {
   const response = await supertest(app).get("/flows").send({
@@ -112,5 +111,3 @@ test("testa lista de fluxos", async () => {
   });
   expect(response.status).toBe(200);
 });
-=======
->>>>>>> fb64f20be084c37db4691fd5a683c4d50a90a1ae
