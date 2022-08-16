@@ -77,11 +77,18 @@ test("testa deletar fluxo", async () => {
   expect(response.status).toBe(200);
 });
 
-test("testa nao deletar fluxo", async () => {
+test("testa nao encontrar fluxo para delecao", async () => {
   const response = await supertest(app).post("/deleteFlow").send({
     flowId: responseFlow2.body._id,
   });
   expect(response.status).toBe(404);
+});
+
+test("testa nao deletar fluxo", async () => {
+  const response = await supertest(app).post("/deleteFlow").send({
+    flowId: "",
+  });
+  expect(response.status).toBe(500);
 });
 
 test("testa edicao de um fluxo", async () => {
@@ -89,4 +96,11 @@ test("testa edicao de um fluxo", async () => {
     _id: responseFlow.body._id,
   });
   expect(response.status).toBe(200);
+});
+
+test("testa falha ao editar um fluxo", async () => {
+  const response = await supertest(app).put("/editFlow").send({
+    _id: "",
+  });
+  expect(response.status).toBe(500);
 });
