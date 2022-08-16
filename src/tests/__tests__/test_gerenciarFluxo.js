@@ -12,7 +12,7 @@ const createStage = async (stage) => {
   });
 };
 
-let responseFlow, stageArray, sequenceArray;
+let responseFlow, responseFlow2, stageArray, sequenceArray;
 
 beforeAll(async () => {
   mongoDB.connect();
@@ -33,12 +33,17 @@ beforeAll(async () => {
     },
   ];
 
-  responseFlow = await supertest(app)
-    .post("/newFlow")
-    .send({
-      name: "flow1",
-      stages: stageArray,
-      sequences: sequenceArray,
+  responseFlow = await supertest(app).post("/newFlow").send({
+    name: "flow1",
+    stages: stageArray,
+    sequences: sequenceArray,
+  });
+
+  responseFlow2 = await supertest(app).post("/newFlow").send({
+    name: "flow2",
+    stages: stageArray,
+    sequences: sequenceArray,
+    deleted: false,
   });
 });
 
@@ -58,11 +63,23 @@ test("testa fluxo criado", async () => {
 });
 
 test("testa se fluxo criado nao dar certo", async () => {
-  const response = await supertest(app)
-    .post("/newFlow")
-    .send({
-      name: "",
-      deleted: false,
-    });
+  const response = await supertest(app).post("/newFlow").send({
+    name: "",
+    deleted: false,
+  });
   expect(response.status).toBe(500);
+});
+
+test("testa deletar fluxo", async () => {
+  const response = await supertest(app).post("/deleteFlow").send({
+    flowId: responseFlow.body._id,
+  });
+  expect(response.status).toBe(200);
+});
+
+test("testa nao deletar fluxo", async () => {
+  const response = await supertest(app).post("/deleteFlow").send({
+    flowId: responseFlow2.body._id,
+  });
+  expect(response.status).toBe(404);
 });
