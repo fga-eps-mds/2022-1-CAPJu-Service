@@ -49,6 +49,18 @@ class ProcessController {
     return findProcess(res, search);
   }
 
+  async getOneProcess(req, res) {
+    try {
+      const processes = await Process.findOne({
+        _id: req.params.id,
+      });
+      return res.status(200).json(processes);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+
   async updateProcess(req, res) {
     try {
       await ProcessEditValidator.validateAsync(req.body);
@@ -83,17 +95,16 @@ class ProcessController {
       const search = { _id: body.processId };
       const processes = await Process.findOne(search);
 
-
       processes.etapas.push({
         stageIdTo: body.stageIdTo,
         stageIdFrom: body.stageIdFrom,
         observation: body.observation,
       });
 
-      const result = await Process.updateOne(
-        search,
-        { etapaAtual: body.stageIdTo, etapas: processes.etapas}
-      );
+      const result = await Process.updateOne(search, {
+        etapaAtual: body.stageIdTo,
+        etapas: processes.etapas,
+      });
 
       res.status(200).json(result);
     } catch (error) {
