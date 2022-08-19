@@ -1,38 +1,52 @@
 import supertest from "supertest";
 import app from "../../app";
-import { mongoDB } from "../fixtures";
+import { mongoDB, createFlow } from "../fixtures";
 
-const REGISTRO = "1234";
+const REGISTRO1 = "1234";
+const REGISTRO2 = "1111";
+const REGISTRO3 = "5555";
 
-let globalResponse;
+let responseProcess1, responseProcess2, responseProcess3, flow, flow2;
 
 beforeAll(async () => {
   mongoDB.connect();
   await mongoDB.mongoose.connection.dropDatabase();
-  globalResponse = await supertest(app)
-    .post("/newProcess")
-    .set("Content-Type", "application/json")
-    .send({
-      registro: REGISTRO,
-      apelido: "bar",
-      arquivado: false,
-      etapaAtual: "492482348239mvs342",
-      etapas: [{etapa: "3423432432vsf", duracao: 5, observacoes: 'Perito nomeado com sucesso!'}],
-      fluxoId: '32483scs3424234'
-    });
+  flow = await createFlow(app);
+  flow2 = await createFlow(app, "flow2");
+  responseProcess1 = await supertest(app).post("/newProcess").send({
+    registro: REGISTRO1,
+    apelido: "bar",
+    arquivado: false,
+    etapaAtual: flow.sequenceArray[0].from,
+    fluxoId: flow.responseFlow.body._id,
+  });
+  responseProcess2 = await supertest(app).post("/newProcess").send({
+    registro: REGISTRO2,
+    apelido: "bar",
+    arquivado: false,
+    etapaAtual: flow.sequenceArray[0].from,
+    fluxoId: flow.responseFlow.body._id,
+  });
+  responseProcess3 = await supertest(app).post("/newProcess").send({
+    registro: REGISTRO3,
+    apelido: "bar",
+    arquivado: false,
+    etapaAtual: flow2.sequenceArray[0].from,
+    fluxoId: flow2.responseFlow.body._id,
+  });
 });
 
 afterAll((done) => {
   mongoDB.disconnect(done);
 });
 
-describe.skip("post new process", () => {
+describe("post new process", () => {
   test("testa o endpoint newProcess", async () => {
-    expect(globalResponse.status).toBe(200);
-    expect(globalResponse.body).toEqual({
-      registro: REGISTRO,
+    expect(responseProcess1.status).toBe(200);
+    expect(responseProcess1.body).toEqual({
+      registro: REGISTRO1,
       apelido: "bar",
-      ...globalResponse.body,
+      ...responseProcess1.body,
     });
   });
 
@@ -47,19 +61,37 @@ describe.skip("post new process", () => {
   });
 });
 
-describe.skip("delete processes", () => {
+describe("get processes", () => {
+  test("get all processes", async () => {
+    const response = await supertest(app).get("/processes");
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      processes: [
+        {
+          ...responseProcess1.body,
+        },
+        {
+          ...responseProcess2.body,
+        },
+        {
+          ...responseProcess3.body,
+        },
+      ],
+    });
+  });
+});
+
+describe("delete processes", () => {
   test(" testa o endpoint deleteProcess", async () => {
-    const response = await await supertest(app).delete(
-      `/deleteProcess/${REGISTRO}`
-    );
+    const response = await supertest(app).delete(`/deleteProcess/${REGISTRO1}`);
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
       deletedCount: 1,
       acknowledged: true,
     });
 
-    const responseError = await await supertest(app).delete(
-      `/deleteProcess/${REGISTRO}`
+    const responseError = await supertest(app).delete(
+      `/deleteProcess/${REGISTRO1}`
     );
     expect(responseError.status).toBe(500);
   });
