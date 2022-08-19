@@ -1,25 +1,17 @@
 import supertest from "supertest";
 import { mongoDB } from "../fixtures";
 import app from "../../app";
+import { createStage } from "../fixtures"
 
-const STAGE1 = "STAGE1";
-const STAGE2 = "STAGE2";
-const STAGE3 = "STAGE3";
-
-const createStage = async (stage) => {
-  return await supertest(app).post("/newStage").send({
-    name: stage,
-  });
-};
 
 let responseFlow, stageArray, sequenceArray;
 
 beforeAll(async () => {
   mongoDB.connect();
   await mongoDB.mongoose.connection.dropDatabase();
-  const resStage1 = await createStage(STAGE1);
-  const resStage2 = await createStage(STAGE2);
-  const resStage3 = await createStage(STAGE3);
+  const resStage1 = await createStage('stage1', '15', app);
+  const resStage2 = await createStage('stage2', '15', app);
+  const resStage3 = await createStage('stage3', '15', app);
   stageArray = [resStage1.body._id, resStage2.body._id, resStage3.body._id];
 
   const sequenceArray = [
@@ -44,7 +36,7 @@ afterAll((done) => {
   mongoDB.disconnect(done);
 });
 
-test.skip("testa fluxo criado", () => {
+test("testa fluxo criado", () => {
   expect(responseFlow.status).toBe(200);
   expect(responseFlow.body).toEqual({
     name: "flow1",

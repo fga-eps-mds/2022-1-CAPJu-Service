@@ -1,4 +1,13 @@
 import mongoose from "mongoose";
+import supertest from "supertest";
+
+export const createStage = async (name, time, app) => {
+  return await supertest(app).post("/newStage").send({
+    name: name,
+    time: time,
+    deleted: false
+  });
+};
 
 export const mongoDB = {
   mongoose,
