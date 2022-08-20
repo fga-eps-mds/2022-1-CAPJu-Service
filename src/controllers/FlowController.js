@@ -82,6 +82,16 @@ class FlowController {
       return res.status(500).json(error);
     }
   }
+
+  async getFlow(req, res) {
+    try {
+      const result = await Flow.findOne({ _id: req.params.id });
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json(error);
+    }
+  }
 }
 
 export default new FlowController();

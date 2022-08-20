@@ -14,6 +14,7 @@ routes.delete("/deleteProcess/:registro", ProcessController.deleteProcess);
 routes.put("/processNextStage/", ProcessController.nextStage);
 
 routes.get("/flows", FlowController.allFlows);
+routes.get("/flows/:id", FlowController.getFlow);
 routes.post("/newFlow", FlowController.createFlow);
 routes.post("/deleteFlow", FlowController.deleteFlow);
 routes.put("/editFlow", FlowController.editFlow);
