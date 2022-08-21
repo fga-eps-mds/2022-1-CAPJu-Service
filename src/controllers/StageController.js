@@ -4,10 +4,11 @@ import { StageValidator } from "../validators/Stage.js";
 class StageController {
   async createStage(req, res) {
     try {
-      const { name } = await StageValidator.validateAsync(req.body);
-      console.log(name);
+      const { name, time } = await StageValidator.validateAsync(req.body);
+    
       const stage = await Stage.create({
         name,
+        time,
         deleted: false,
       });
 
