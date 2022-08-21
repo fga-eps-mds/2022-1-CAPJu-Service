@@ -1,15 +1,14 @@
 import supertest from "supertest";
 import { mongoDB } from "../fixtures";
 import app from "../../app";
-import { createFlow, responseFlow2, responseFlow } from "../fixtures";
+import { createFlow } from "../fixtures";
 
 let flow;
 
-beforeAll( async () => {
+beforeAll(async () => {
   mongoDB.connect();
   await mongoDB.mongoose.connection.dropDatabase();
   flow = await createFlow(app);
-
 });
 
 afterAll((done) => {
@@ -39,7 +38,7 @@ test("testa se fluxo criado nao dar certo", async () => {
 });
 
 test("testa deletar fluxo", async () => {
-  const {responseFlow} = flow;
+  const { responseFlow } = flow;
   const response = await supertest(app).post("/deleteFlow").send({
     flowId: responseFlow.body._id,
   });
@@ -47,7 +46,7 @@ test("testa deletar fluxo", async () => {
 });
 
 test("testa nao encontrar fluxo para delecao", async () => {
-  const {responseFlow2} = flow;
+  const { responseFlow2 } = flow;
   const response = await supertest(app).post("/deleteFlow").send({
     flowId: responseFlow2.body._id,
   });
@@ -62,6 +61,7 @@ test("testa nao deletar fluxo", async () => {
 });
 
 test("testa edicao de um fluxo", async () => {
+  const { responseFlow } = flow;
   const response = await supertest(app).put("/editFlow").send({
     _id: responseFlow.body._id,
   });
@@ -76,6 +76,7 @@ test("testa falha ao editar um fluxo", async () => {
 });
 
 test("testa lista de fluxos", async () => {
+  const { responseFlow2 } = flow;
   const response = await supertest(app).get("/flows").send({
     deleted: responseFlow2.body.deleted,
   });

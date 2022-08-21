@@ -9,7 +9,7 @@ export const createStage = async (name, time, app) => {
   });
 };
 
-export const createFlow = async (app, name='flow1') => {
+export const createFlow = async (app, name = 'flow1') => {
   const resStage1 = await createStage('stage1', '15', app);
   const resStage2 = await createStage('stage2', '15', app);
   const resStage3 = await createStage('stage3', '15', app);
@@ -33,7 +33,7 @@ export const createFlow = async (app, name='flow1') => {
 
 
   const responseFlow2 = await supertest(app).post("/newFlow").send({
-    name: "flow2",
+    name: name,
     stages: stageArray,
     sequences: sequenceArray,
     deleted: false,
