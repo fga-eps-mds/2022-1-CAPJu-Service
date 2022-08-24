@@ -79,10 +79,30 @@ describe("get processes", () => {
       ],
     });
   });
+  test("testa o endpoint de pegar processo por fluxo", async () => {
+    const response = await supertest(app).get(`/processes/${responseProcess1.body.fluxoId}`);
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      processes:[
+        responseProcess1.body,
+        responseProcess2.body
+      ]
+    });
+  });
+  test("testa o endpoint de pegar processo", async () => {
+    
+    const response = await supertest(app).get(`/getOneProcess/${responseProcess1.body._id}`);
+    
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      responseProcess1.body
+    );
+    })
 });
 
+
 describe("delete processes", () => {
-  test.skip(" testa o endpoint deleteProcess", async () => {
+  test("testa o endpoint deleteProcess", async () => {
     const response = await supertest(app).delete(`/deleteProcess/${REGISTRO1}`);
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
