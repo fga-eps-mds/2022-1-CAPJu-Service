@@ -2,25 +2,31 @@ import { Router } from "express";
 import FlowController from "./controllers/FlowController.js";
 import ProcessController from "./controllers/ProcessController.js";
 import StageController from "./controllers/StageController.js";
+import { protect } from "./middleware/authMiddleware.js";
 
 const routes = Router();
 
-routes.get("/processes", ProcessController.allProcesses);
-routes.get("/processes/:flowId", ProcessController.processesInFlow);
-routes.get("/getOneProcess/:id", ProcessController.getOneProcess);
-routes.post("/newProcess", ProcessController.createProcess);
-routes.put("/updateProcess/:id", ProcessController.updateProcess);
-routes.delete("/deleteProcess/:registro", ProcessController.deleteProcess);
-routes.put("/processNextStage/", ProcessController.nextStage);
+routes.get("/processes", protect, ProcessController.allProcesses);
+routes.get("/processes/:flowId", protect, ProcessController.processesInFlow);
+routes.get("/getOneProcess/:id", protect,  ProcessController.getOneProcess);
+routes.post("/newProcess", protect,  ProcessController.createProcess);
+routes.put("/updateProcess/:id", protect,  ProcessController.updateProcess);
+routes.delete("/deleteProcess/:registro", protect, ProcessController.deleteProcess);
+routes.put("/processNextStage/", protect, ProcessController.nextStage);
 
-routes.get("/flows", FlowController.allFlows);
-routes.get("/flows/:id", FlowController.getFlow);
-routes.post("/newFlow", FlowController.createFlow);
-routes.post("/deleteFlow", FlowController.deleteFlow);
-routes.put("/editFlow", FlowController.editFlow);
+routes.get("/flows", protect, FlowController.allFlows);
+routes.get("/flows/:id", protect, FlowController.getFlow);
+routes.post("/newFlow", protect, FlowController.createFlow);
+routes.post("/deleteFlow", protect, FlowController.deleteFlow);
+routes.put("/editFlow", protect, FlowController.editFlow);
 
-routes.get("/stages", StageController.allStages);
-routes.post("/newStage", StageController.createStage);
-routes.post("/deleteStage", StageController.deleteStage);
+routes.get("/flows", protect, FlowController.allFlows);
+routes.post("/newFlow", protect, FlowController.createFlow);
+routes.post("/deleteFlow", protect, FlowController.deleteFlow);
+routes.put("/editFlow", protect, FlowController.editFlow);
+
+routes.get("/stages", protect, StageController.allStages);
+routes.post("/newStage", protect, StageController.createStage);
+routes.post("/deleteStage", protect, StageController.deleteStage);
 
 export default routes;
