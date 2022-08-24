@@ -9,7 +9,7 @@ export const createStage = async (name, time, app) => {
   });
 };
 
-export const createFlow = async (app, name='flow1') => {
+export const createFlow = async (app, name = 'flow1') => {
   const resStage1 = await createStage('stage1', '15', app);
   const resStage2 = await createStage('stage2', '15', app);
   const resStage3 = await createStage('stage3', '15', app);
@@ -30,8 +30,17 @@ export const createFlow = async (app, name='flow1') => {
     stages: stageArray,
     sequences: sequenceArray,
   });
+
+
+  const responseFlow2 = await supertest(app).post("/newFlow").send({
+    name: name,
+    stages: stageArray,
+    sequences: sequenceArray,
+    deleted: false,
+  });
   return {
     responseFlow: responseFlow,
+    responseFlow2: responseFlow2,
     name: name,
     stageArray: stageArray,
     sequenceArray: sequenceArray
@@ -43,7 +52,7 @@ export const mongoDB = {
   connect: () => {
     mongoose.Promise = Promise;
     mongoose.connect(
-      process.env.MONGODB_URI_TESTE || "mongodb+srv://capju:3npIZt0BDreDRJTI@cluster0.aqleb.mongodb.net/AquilesTeste?retryWrites=true&w=majority"
+      process.env.MONGODB_URI_TESTE || "mongodb+srv://capju:3npIZt0BDreDRJTI@cluster0.aqleb.mongodb.net/FranciscoHeronildo?retryWrites=true&w=majority"
     );
   },
   disconnect: (done) => {

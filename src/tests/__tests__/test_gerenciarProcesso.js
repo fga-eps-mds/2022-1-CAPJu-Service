@@ -41,7 +41,7 @@ afterAll((done) => {
 });
 
 describe("post new process", () => {
-  test("testa o endpoint newProcess", async () => {
+  test.skip("testa o endpoint newProcess", async () => {
     expect(responseProcess1.status).toBe(200);
     expect(responseProcess1.body).toEqual({
       registro: REGISTRO1,
@@ -50,7 +50,7 @@ describe("post new process", () => {
     });
   });
 
-  test("testa o endpoint newProcess se der errado", async () => {
+  test.skip("testa o endpoint newProcess se der errado", async () => {
     const response = await supertest(app)
       .post("/newProcess")
       .set("Content-Type", "application/json")
@@ -62,7 +62,7 @@ describe("post new process", () => {
 });
 
 describe("get processes", () => {
-  test("get all processes", async () => {
+  test.skip("get all processes", async () => {
     const response = await supertest(app).get("/processes");
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
