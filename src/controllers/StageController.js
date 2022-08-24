@@ -2,17 +2,23 @@ import Stage from "../schemas/Stage.js";
 import { StageValidator } from "../validators/Stage.js";
 
 class StageController {
+
   async createStage(req, res) {
     try {
       const { name, time } = await StageValidator.validateAsync(req.body);
-    
-      const stage = await Stage.create({
-        name,
-        time,
-        deleted: false,
+      const exist = await Stage.find({ name, time, deleted: false });
+      console.log(exist);
+      if(Object.keys(exist).length === 0){
+        const stage = await Stage.create({
+          name,
+          time,
+          deleted: false,
+        });
+        return res.status(200).json(stage);
+      }
+      return res.status(400).json({
+        message: "Stage exist",
       });
-
-      return res.status(200).json(stage);
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);

@@ -42,6 +42,22 @@ test("testa o endpoint newStage se der errado", async () => {
   expect(response.status).toBe(500);
 });
 
+test("testa o endpoint newStage duplicado", async () => {
+  await supertest(app)
+    .post("/newStage")
+    .send({
+      name: "teste",
+      time: "123",
+    });
+  const response2 = await supertest(app)
+    .post("/newStage")
+    .send({
+      name: "teste",
+      time: "123",
+    });  
+  expect(response2.status).toBe(400);
+});
+
 test("testa a remoção de uma etapa em /deleteStage", async () => {
   const response = await supertest(app)
   .post("/deleteStage")
