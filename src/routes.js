@@ -7,10 +7,18 @@ import { protect } from "./middleware/authMiddleware.js";
 const routes = Router();
 
 routes.get("/processes", protect, ProcessController.allProcesses);
-routes.post("/newProcess", protect, ProcessController.createProcess);
-routes.put("/updateProcess/:id", protect, ProcessController.updateProcess);
+routes.get("/processes/:flowId", protect, ProcessController.processesInFlow);
+routes.get("/getOneProcess/:id", protect,  ProcessController.getOneProcess);
+routes.post("/newProcess", protect,  ProcessController.createProcess);
+routes.put("/updateProcess/:id", protect,  ProcessController.updateProcess);
 routes.delete("/deleteProcess/:registro", protect, ProcessController.deleteProcess);
+routes.put("/processNextStage/", protect, ProcessController.nextStage);
 
+routes.get("/flows", protect, FlowController.allFlows);
+routes.get("/flows/:id", protect, FlowController.getFlow);
+routes.post("/newFlow", protect, FlowController.createFlow);
+routes.post("/deleteFlow", protect, FlowController.deleteFlow);
+routes.put("/editFlow", protect, FlowController.editFlow);
 
 routes.get("/flows", protect, FlowController.allFlows);
 routes.post("/newFlow", protect, FlowController.createFlow);

@@ -3,7 +3,7 @@ const { Schema, model } = mongoose;
 
 const ProcessSchema = new Schema(
   {
-    registro: String,
+    registro: {type: String, unique: true},
     apelido: String,
     etapas: Array,
     arquivado: {type: Boolean, default: false},
