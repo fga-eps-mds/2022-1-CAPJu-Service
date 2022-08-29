@@ -34,6 +34,7 @@ beforeAll(async () => {
     etapaAtual: flow2.sequenceArray[0].from,
     fluxoId: flow2.responseFlow.body._id,
   });
+  console.log(responseProcess3.body);
 });
 
 afterAll((done) => {
