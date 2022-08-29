@@ -99,6 +99,7 @@ class ProcessController {
         stageIdTo: body.stageIdTo,
         stageIdFrom: body.stageIdFrom,
         observation: body.observation,
+        createdAt: new Date()
       });
 
       const result = await Process.updateOne(search, {
