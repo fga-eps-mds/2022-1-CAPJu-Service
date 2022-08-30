@@ -6,3 +6,5 @@ jest.mock("../middleware/authMiddleware", () => {
     protect: jest.fn((req, res, next) => next()),
   };
 });
+
+jest.setTimeout(30000);
