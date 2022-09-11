@@ -25,7 +25,7 @@ routes.post("/newFlow", protect, FlowController.createFlow);
 routes.post("/deleteFlow", protect, FlowController.deleteFlow);
 routes.put("/editFlow", protect, FlowController.editFlow);
 
-routes.get("/stages", StageController.allStages);
+routes.get("/stages", authRole, StageController.allStages);
 routes.post("/newStage", protect, StageController.createStage);
 routes.post("/deleteStage", protect, StageController.deleteStage);
 
