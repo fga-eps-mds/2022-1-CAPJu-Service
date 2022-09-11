@@ -29,44 +29,51 @@ async function protect(req, res, next) {
     return res.status(401).send();
   }
 }
-
-async function authRole(req, res, next) {
-  let token;
-  let authorized;
-
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    try {
-      // Get token from header
-      token = req.headers.authorization.split(" ")[1];
-
-      // Verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decoded);
-      // Get user from the token
-      req.user = await User.findById(decoded.id).select("-password");
-
-      authorized = false;
-      //Verificanco a role
-      // roleArray.array.forEach((role) => {
-      authorized = req.user.role === 1;
-      // });
-      if (authorized) {
-        return next();
-      }
-      return res.status(401).json({ sucess: false, message: "Unauthorized" });
-    } catch (error) {
-      console.log(error);
+async function isAdmin (req, res, next){
+  console.log(req.user);
+  if (req.user.role !== 4){
       return res.status(401).send();
-    }
   }
-  if (!authorized) {
-    return res.status(401).send();
-  }
-}
+  next();
 
+// async function authRole(req, res, next) {
+//   let token;
+//   let authorized;
+
+//   if (
+//     req.headers.authorization &&
+//     req.headers.authorization.startsWith("Bearer")
+//   ) {
+//     try {
+//       // Get token from header
+//       token = req.headers.authorization.split(" ")[1];
+
+//       // Verify token
+//       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//       console.log(decoded);
+//       // Get user from the token
+//       req.user = await User.findById(decoded.id).select("-password");
+
+//       authorized = false;
+//       //Verificanco a role
+//       // roleArray.array.forEach((role) => {
+//       authorized = req.user.role === 1;
+//       // });
+//       if (authorized) {
+//         return next();
+//       }
+//       return res.status(401).json({ sucess: false, message: "Unauthorized" });
+//     } catch (error) {
+//       console.log(error);
+//       return res.status(401).send();
+//     }
+//   }
+//   if (!authorized) {
+//     return res.status(401).send();
+//   }
+// }
+
+}
 // function authRole(role) {
 //   return (req, res, next) => {
 //     const Role = role.filter(req.user.role);
@@ -78,4 +85,4 @@ async function authRole(req, res, next) {
 //   };
 // }
 
-export { protect, authRole };
+export { protect, isAdmin};
