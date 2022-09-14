@@ -49,14 +49,14 @@ routes.put("/processNextStage/", protect, ProcessController.nextStage);
 //Rotas de Fluxos
 routes.get(
   "/flows",
-  authRole([ROLE.JUIZ, ROLE.DIRETOR, ROLE.SERVIDOR, ROLE.ESTAGIARIO]),
   protect,
+  authRole([ROLE.JUIZ, ROLE.DIRETOR, ROLE.SERVIDOR, ROLE.ESTAGIARIO]),
   FlowController.allFlows
 );
 routes.get(
   "/flows/:id",
-  authRole([ROLE.JUIZ, ROLE.DIRETOR, ROLE.SERVIDOR]),
   protect,
+  authRole([ROLE.JUIZ, ROLE.DIRETOR, ROLE.SERVIDOR]),
   FlowController.getFlow
 );
 routes.post(
