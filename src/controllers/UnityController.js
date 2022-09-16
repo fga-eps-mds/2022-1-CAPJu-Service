@@ -1,4 +1,5 @@
 import Unity from "../schemas/Unity.js";
+import User from "../schemas/User.js";
 import { UnityValidator } from "../validators/Unity.js";
 
 class UnityController {
@@ -41,6 +42,19 @@ class UnityController {
       );
 
       return res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+
+  async unityAdmins(req, res) {
+    let unityId = req.params.unity;
+    try {
+      const admins = await User.find({ unityAdmin: unityId });
+      return res.status(200).json({
+        admins,
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);

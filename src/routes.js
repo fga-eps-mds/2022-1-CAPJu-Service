@@ -106,6 +106,12 @@ routes.get(
   authRole([ROLE.JUIZ, ROLE.DIRETOR, ROLE.SERVIDOR, ROLE.ESTAGIARIO]),
   UnityController.allUnitys
 );
+routes.get(
+  "/unityAdmins/:unity",
+  protect,
+  authRole([ROLE.JUIZ, ROLE.DIRETOR, ROLE.SERVIDOR, ROLE.ESTAGIARIO]),
+  UnityController.unityAdmins
+);
 routes.post(
   "/newUnity",
   protect,
