@@ -2,6 +2,7 @@ import { Router } from "express";
 import FlowController from "./controllers/FlowController.js";
 import ProcessController from "./controllers/ProcessController.js";
 import StageController from "./controllers/StageController.js";
+import UnityController from "./controllers/UnityController.js";
 import { protect, authRole } from "./middleware/authMiddleware.js";
 import { ROLE } from "./schemas/role.js";
 
@@ -96,6 +97,26 @@ routes.post(
   protect,
   authRole([ROLE.DIRETOR, ROLE.SERVIDOR]),
   StageController.deleteStage
+);
+
+//Rotas de Etapas
+routes.get(
+  "/unitys",
+  protect,
+  authRole([ROLE.JUIZ, ROLE.DIRETOR, ROLE.SERVIDOR, ROLE.ESTAGIARIO]),
+  UnityController.allUnitys
+);
+routes.post(
+  "/newUnity",
+  protect,
+  authRole([ROLE.DIRETOR]),
+  UnityController.createUnity
+);
+routes.post(
+  "/deleteUnity",
+  protect,
+  authRole([ROLE.DIRETOR]),
+  UnityController.deleteUnity
 );
 
 export default routes;
