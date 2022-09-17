@@ -14,6 +14,7 @@ const UserSchema = new Schema(
       type: Number,
       default: 0,
     },
+    unity: String,
   },
   {
     timestamps: true,
