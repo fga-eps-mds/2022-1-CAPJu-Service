@@ -33,14 +33,7 @@ async function protect(req, res, next) {
   }
 }
 
-// async function isAdmin(req, res, next) {
-//   console.log(req.user);
-//   if (req.user.role !== 1) {
-//     return res.status(401).send();
-//   }
-//   next();
-// }
-
+// Role authorization function
 export const authRole = (roleArray) => (req, res, next) => {
   function searchRole(value) {
     return value == req.user.role;
@@ -49,7 +42,10 @@ export const authRole = (roleArray) => (req, res, next) => {
   if (req.user.role == filtered) {
     return next();
   }
-  return res.status(401).json({ sucess: false, message: "Unauthorized" });
+  return res.status(401).json({
+    sucess: false,
+    message: "Acesso Negado: Perfil sem permissão ",
+  });
 };
 
 export { protect };
