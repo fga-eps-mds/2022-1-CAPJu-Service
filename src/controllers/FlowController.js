@@ -26,6 +26,7 @@ class FlowController {
         stages,
         sequences,
         deleted: false,
+        unity: req.user.unity,
       });
 
       return res.status(200).json(flow);
@@ -37,7 +38,7 @@ class FlowController {
 
   async allFlows(req, res) {
     try {
-      const Flows = await Flow.find({ deleted: false });
+      const Flows = await Flow.find({ deleted: false, unity: req.user.unity, });
       return res.status(200).json({
         Flows,
       });

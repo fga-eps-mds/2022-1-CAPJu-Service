@@ -3,12 +3,13 @@ const { Schema, model } = mongoose;
 
 const ProcessSchema = new Schema(
   {
-    registro: {type: String, unique: true},
+    registro: { type: String, unique: true },
     apelido: String,
     etapas: Array,
-    arquivado: {type: Boolean, default: false},
+    arquivado: { type: Boolean, default: false },
     etapaAtual: Schema.Types.ObjectId,
-    fluxoId: Schema.Types.ObjectId
+    fluxoId: Schema.Types.ObjectId,
+    unity: String,
   },
   {
     timestamps: true,

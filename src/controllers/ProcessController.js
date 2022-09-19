@@ -22,6 +22,7 @@ class ProcessController {
     try {
       const { registro, apelido, etapaAtual, etapas, arquivado, fluxoId } =
         await ProcessValidator.validateAsync(req.body);
+
       const process = await Process.create({
         registro,
         apelido,
@@ -29,6 +30,7 @@ class ProcessController {
         arquivado,
         etapas,
         fluxoId,
+        unity: req.user.unity,
       });
 
       return res.status(200).json(process);
@@ -39,12 +41,13 @@ class ProcessController {
   }
 
   async allProcesses(req, res) {
-    return findProcess(res);
+    return findProcess(res, { unity: req.user.unity });
   }
 
   async processesInFlow(req, res) {
     const search = {
       fluxoId: req.params.flowId,
+      unity: req.user.unity,
     };
     return findProcess(res, search);
   }
@@ -99,7 +102,7 @@ class ProcessController {
         stageIdTo: body.stageIdTo,
         stageIdFrom: body.stageIdFrom,
         observation: body.observation,
-        createdAt: new Date()
+        createdAt: new Date(),
       });
 
       const result = await Process.updateOne(search, {

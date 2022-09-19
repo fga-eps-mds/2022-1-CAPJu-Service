@@ -9,10 +9,12 @@ const UserSchema = new Schema(
     status: Boolean,
     recoveryHash: String,
     recoveryDate: Date,
+    unityAdmin: String,
     role: {
       type: Number,
       default: 0,
     },
+    unity: String,
   },
   {
     timestamps: true,

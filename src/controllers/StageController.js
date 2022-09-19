@@ -13,6 +13,7 @@ class StageController {
           name,
           time,
           deleted: false,
+          unity: req.user.unity,
         });
         return res.status(200).json(stage);
       }
@@ -51,7 +52,7 @@ class StageController {
 
   async allStages(req, res) {
     try {
-      const Stages = await Stage.find({ deleted: false });
+      const Stages = await Stage.find({ deleted: false, unity: req.user.unity, });
       return res.status(200).json({
         Stages,
       });

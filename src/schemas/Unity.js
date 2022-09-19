@@ -1,16 +1,14 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const StageSchema = new Schema(
+const UnitySchema = new Schema(
   {
     name: String,
-    time: String,
     deleted: Boolean,
-    unity: String,
   },
   {
     timestamps: true,
   }
 );
 
-export default model("Stage", StageSchema);
+export default model("Unity", UnitySchema);

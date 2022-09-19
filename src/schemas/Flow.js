@@ -7,6 +7,7 @@ const FlowSchema = new Schema(
     stages: Array,
     sequences: Array,
     deleted: Boolean,
+    unity: String,
   },
   {
     timestamps: true,
