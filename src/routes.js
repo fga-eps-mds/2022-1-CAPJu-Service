@@ -100,12 +100,7 @@ routes.post(
 );
 
 //Rotas de Etapas
-routes.get(
-  "/unitys",
-  protect,
-  authRole([ROLE.JUIZ, ROLE.DIRETOR, ROLE.SERVIDOR, ROLE.ESTAGIARIO]),
-  UnityController.allUnitys
-);
+routes.get("/unitys", UnityController.allUnitys);
 routes.get(
   "/unityAdmins/:unity",
   protect,
