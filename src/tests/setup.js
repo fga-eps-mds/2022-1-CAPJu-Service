@@ -10,4 +10,4 @@ jest.mock("../middleware/authMiddleware", () => {
   };
 });
 
-jest.setTimeout(30000);
+jest.setTimeout(9000);
